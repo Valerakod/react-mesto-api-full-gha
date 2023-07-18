@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const {
   celebrate, Joi, Segments, errors,
 } = require('celebrate');
+const cors = require('cors');
+const dotenv = require('dotenv');
 const NotFoundError = require('./errors/NotFoundError');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error');
@@ -14,8 +16,7 @@ const {
   requestLogger,
   errorLogger,
 } = require('./middlewares/logger');
-const cors = require('cors');
-const dotenv = require('dotenv');
+
 dotenv.config();
 
 const { PORT = 3000, MONGO_URI } = process.env;

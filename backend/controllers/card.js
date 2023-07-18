@@ -38,15 +38,15 @@ const deleteCard = (req, res, next) => {
             console.log(error);
             next(
               new BadRequestError(
-                `An error occurred when deleting card ${cardId}`
-              )
+                `An error occurred when deleting card ${cardId}`,
+              ),
             );
           });
       } else {
         next(
           new AuthorizationError(
-            `An error occurred deleting card: ${cardId}. It is not owned by ${req.user._id}. The real owner is ${owner}`
-          )
+            `An error occurred deleting card: ${cardId}. It is not owned by ${req.user._id}. The real owner is ${owner}`,
+          ),
         );
       }
     })
@@ -67,7 +67,7 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
-    { new: true }
+    { new: true },
   )
     .orFail()
     .then((card) => res.status(constants.HTTP_STATUS_OK).send(card))
@@ -88,7 +88,7 @@ const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
-    { new: true }
+    { new: true },
   )
     .orFail()
     .then((card) => res.status(constants.HTTP_STATUS_OK).send(card))
@@ -101,8 +101,8 @@ const dislikeCard = (req, res, next) => {
       } else {
         next(
           new BadRequestError(
-            `An error occurred when deleting a like to card: ${cardId}`
-          )
+            `An error occurred when deleting a like to card: ${cardId}`,
+          ),
         );
       }
     });
