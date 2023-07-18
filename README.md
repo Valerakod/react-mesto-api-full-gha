@@ -10,8 +10,8 @@
 
 ## Ссылки на проект
 
-IP-адрес
+IP-
 
-Frontend
+Frontend 
 
-Backend .....
+Backend 
