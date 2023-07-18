@@ -45,7 +45,7 @@ class Auth {
 
 const auth = new Auth({
    // baseAuthUrl: 'https://auth.nomoreparties.co',
-   baseAuthUrl : "http://localhost:3000",
+   baseAuthUrl : "https://api.valeriia.nomoredomains.work",
     headers: {'Content-Type': 'application/json'}
 });
 
