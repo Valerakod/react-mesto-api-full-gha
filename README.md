@@ -10,7 +10,7 @@
 
 ## Ссылки на проект
 
-IP 158.160.53.192
+IP 51.250.83.162
 
 Frontend https://valeriia.nomoredomains.work
 
