@@ -6,12 +6,12 @@
 
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://valerakod.github.io/react-mesto-api-full-gha/
 
 ## Ссылки на проект
 
-IP-
+IP 158.160.53.192
 
-Frontend 
+Frontend https://valeriia.nomoredomains.work
 
-Backend 
+Backend https://api.valeriia.nomoredomains.work
