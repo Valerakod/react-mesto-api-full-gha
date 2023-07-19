@@ -29,7 +29,7 @@ class Auth {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                authorization: `Bearer ${token}`,
             },
         })
         .then(this._checkError);
@@ -44,7 +44,7 @@ class Auth {
 }
 
 const auth = new Auth({
-   // baseAuthUrl: 'https://auth.nomoreparties.co',
+    //baseAuthUrl: 'http://localhost:3000',
    baseAuthUrl : "https://api.valeriia.nomoredomains.work",
     headers: {'Content-Type': 'application/json'}
 });

@@ -1,11 +1,14 @@
+// подключаем dotenv config(), чтобы секретный
+// ключ из файла .env работал
+require('dotenv').config();
 const express = require('express');
 const BodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const {
   celebrate, Joi, Segments, errors,
 } = require('celebrate');
-const cors = require('cors');
-const dotenv = require('dotenv');
+
+const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/NotFoundError');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error');
@@ -17,8 +20,6 @@ const {
   errorLogger,
 } = require('./middlewares/logger');
 
-dotenv.config();
-
 const { PORT = 3000, MONGO_URI } = process.env;
 const app = express();
 
@@ -29,7 +30,7 @@ app.get('/crash-test', () => {
 });
 
 app.use(BodyParser.json());
-app.use(cors());
+app.use(cors);
 
 app.use(requestLogger);
 app.use(express.json());

@@ -69,11 +69,12 @@ function App() {
   }
 
   // получаем массив карточек
-  useEffect(() => {
+  /*useEffect(() => {
     if (loggedIn) {
       api
         .getInitialCards()
         .then((cards) => {
+          console.log(cards);
           setCards(cards);
         })
         .catch((err) => {
@@ -88,6 +89,7 @@ function App() {
       api
         .getUserInfo()
         .then((userInfo) => {
+          console.log(userInfo)
           setCurrentUser(userInfo);
         })
         .catch((err) => {
@@ -95,6 +97,19 @@ function App() {
         });
     }
   }, [loggedIn]);
+*/
+useEffect(() => {
+  
+  loggedIn &&
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userInfo, cards]) => {
+        console.log(userInfo)
+        console.log(cards)
+        setCurrentUser(userInfo);
+        setCards(cards.reverse());
+      })
+      .catch((err) => console.log(err));
+}, [loggedIn]);
 
   //смена информации о пользователе
   function handleUpdateUser(data) {
@@ -166,6 +181,7 @@ function App() {
 
   // регистрация нового пользователя
   function handleRegister({ registerData, setRegisterData }) {
+    console.log({ registerData, setRegisterData })
     auth
       .register(registerData)
       .then(() => {
@@ -195,15 +211,17 @@ function App() {
 
   // авторизация
   function handleAuthorization({ loginData, setLoginData }) {
+    console.log({ loginData, setLoginData })
     auth
       .authorize(loginData)
       .then((data) => {
         if (data.token) {
+          localStorage.setItem('token', data.token);
+
           setLoggedIn(true);
           setCurrentEmail(loginData.email);
           navigate('/');
-          localStorage.setItem('token', data.token);
-
+          
           setLoginData({
             email: '',
             password: '',
@@ -222,6 +240,7 @@ function App() {
     function handleTokenCheck() {
       if (localStorage.getItem('token')) {
         const token = localStorage.getItem('token');
+        console.log(token)
         auth
           .checkToken(token)
           .then((data) => {

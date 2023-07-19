@@ -7,6 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const AuthentificationError = require('../errors/AuthentificationError');
 const AlreadyExistsError = require('../errors/AlreadyExistsError');
 const NotFoundError = require('../errors/NotFoundError');
+// const { NODE_ENV, JWT_SECRET } = require('../utils/constants');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;

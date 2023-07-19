@@ -5,8 +5,8 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
 
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = card.owner._id === currentUser._id;
-
+  //const isOwn = card.owner._id === currentUser._id;
+  const isOwn = (card.owner._id || card.owner) === currentUser._id
   const cardDeleteButtonClassName = `element__delete-icon ${
     isOwn ? "element__delete-icon_visible" : ''
 }`;
@@ -48,13 +48,15 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         <p className="element__heart-count">{card?.likes.length}</p>
       </div>
      
+        
+      {isOwn && (
         <button
-          className={cardDeleteButtonClassName}
-          type="button"
-          aria-label="Удалить"
-          onClick={handleDeleteClick}
-        ></button>
-      
+        className={cardDeleteButtonClassName}
+        type="button"
+        aria-label="Удалить"
+        onClick={handleDeleteClick}
+        />
+      )}
     </article>
   );
 }

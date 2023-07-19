@@ -3,101 +3,112 @@ class Api {
     this._baseUrl = options.baseUrl;
   }
 
-  returnResultStatus(res) {
+  _handleResponse(res) {
     if (res.ok) {
-      return res.json();
+      return Promise.resolve(res.json());
     }
-    return Promise.reject(
-      `Что-то пошло не так: ${res.status} : ${res.statusText}`,
-    );
+
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getUserInfo() {
-    return fetch(this._baseUrl + '/users/me', {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-    }).then(this.returnResultStatus);
-  }
-
-  setUserInfo(data) {
-    return fetch(this._baseUrl + '/users/me', {
+  async setUserInfo(data) {
+    const response = await fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
       }),
-    }).then(this.returnResultStatus);
+    });
+    return this._handleResponse(response);
   }
 
-  getInitialCards() {
-    return fetch(this._baseUrl + '/cards', {
+  async getUserInfo() {
+    const response = await fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    }).then(this.returnResultStatus);
+    });
+    return this._handleResponse(response);
   }
 
-  addCard({ name, link }) {
-    return fetch(this._baseUrl + '/cards', {
+  async getInitialCards() {
+    const response = await fetch(`${this._baseUrl}/cards`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return this._handleResponse(response);
+  }
+
+  async addCard(data) {
+    const response = await fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify({
-        name: name,
-        link: link,
-      }),
-    }).then(this.returnResultStatus);
+      body: JSON.stringify(data),
+    });
+    return this._handleResponse(response);
   }
 
-  deleteCard(cardId) {
-    console.log(cardId);
-    return fetch(this._baseUrl + `/cards/${cardId}`, {
+  async deleteCard(cardId) {
+    const response = await fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    }).then(this.returnResultStatus);
+    });
+    return this._handleResponse(response);
   }
 
-  changeLikeCardStatus(id, isLiked) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+  async changeLikeCardStatus(id, isLiked) {
+    const response = await fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: isLiked ? 'PUT' : 'DELETE',
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    }).then(this.returnResultStatus);
+    });
+    return this._handleResponse(response);
   }
 
-  setAvatar(data) {
-    return fetch(this._baseUrl + '/users/me/avatar', {
+  async removeLike(cardId) {
+    const response = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return this._handleResponse(response);
+  }
+
+  async setAvatar(data) {
+    const response = await fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         avatar: data.avatar,
       }),
-    }).then(this.returnResultStatus);
+    });
+    return this._handleResponse(response);
   }
 }
 
 const api = new Api({
-  //baseUrl: "https://mesto.nomoreparties.co/v1/cohort-63",
-  //baseUrl: 'http://localhost:3000',
-  baseUrl: 'https://api.valeriia.nomoredomains.work'
+  //baseUrl: "http://localhost:3000",
+  baseUrl: 'https://api.valeriia.nomoredomains.work',
 });
 
 export default api;
